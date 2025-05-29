@@ -56,6 +56,10 @@ public class ClienteServiceImpl implements ClienteService {
 
 	public Optional<Cliente> getByEmail(@NonNull String email) {
 		return this.clienteRepository.findByEmail(email);
+	} 
+	
+	public void name() {
+		
 	}
 
 }

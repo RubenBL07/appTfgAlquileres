@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-29T08:41:21+0200",
-    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.39.0.v20240820-0604, environment: Java 21.0.4 (Eclipse Adoptium)"
+    date = "2025-05-29T20:05:49+0200",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 22.0.2 (Oracle Corporation)"
 )
 @Component
 public class HerramientaMapperImpl implements HerramientaMapper {
@@ -22,13 +22,13 @@ public class HerramientaMapperImpl implements HerramientaMapper {
 
         Herramienta herramienta = new Herramienta();
 
-        herramienta.setCategoria( dto.categoria() );
-        herramienta.setDescripcion( dto.descripcion() );
-        herramienta.setDisponible( dto.disponible() );
         herramienta.setId( dto.id() );
-        herramienta.setImagenUrl( dto.imagenUrl() );
         herramienta.setNombre( dto.nombre() );
+        herramienta.setDescripcion( dto.descripcion() );
         herramienta.setPrecioDia( dto.precioDia() );
+        herramienta.setDisponible( dto.disponible() );
+        herramienta.setCategoria( dto.categoria() );
+        herramienta.setImagenUrl( dto.imagenUrl() );
 
         return herramienta;
     }

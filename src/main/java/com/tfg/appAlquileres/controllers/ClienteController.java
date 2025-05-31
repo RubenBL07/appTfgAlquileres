@@ -1,5 +1,6 @@
 package com.tfg.appAlquileres.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,11 @@ public class ClienteController {
 	public ResponseEntity<Boolean> put(@RequestParam Long id, @RequestBody Cliente cliente) {
 		return ResponseEntity.ok(clienteServiceImpl.update(id, cliente));
 	}
+	
+	@PutMapping("updateSaldo")
+	public ResponseEntity<Boolean> actualizarSaldo(@RequestParam Long id, @RequestParam BigDecimal saldo) {
+	    return ResponseEntity.ok(clienteServiceImpl.updateSaldo(id, saldo));
+	}
+
 
 }

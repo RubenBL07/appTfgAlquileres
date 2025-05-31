@@ -1,5 +1,6 @@
 package com.tfg.appAlquileres.servicesImpl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,16 +36,12 @@ public class ClienteServiceImpl implements ClienteService {
 		return this.clienteRepository.save(entity) != null;
 	}
 
-	@Override
 	public boolean update(Long id, Cliente entity) {
-	    return this.clienteRepository.findById(id)
-	        .map(existingCliente -> {
-	            existingCliente.setSaldo(entity.getSaldo());
-	            clienteRepository.save(existingCliente);
-	            return true;
-	        }).orElse(false);
+		return this.clienteRepository.findById(id).map(existingCliente -> {
+			entity.setId(id);
+			return save(entity);
+		}).orElse(false);
 	}
-
 
 	@Override
 	public boolean delete(@NonNull Long id) {
@@ -58,10 +55,14 @@ public class ClienteServiceImpl implements ClienteService {
 
 	public Optional<Cliente> getByEmail(@NonNull String email) {
 		return this.clienteRepository.findByEmail(email);
-	} 
-	
-	public void name() {
-		
+	}
+
+	public boolean updateSaldo(Long id, BigDecimal nuevoSaldo) {
+		return clienteRepository.findById(id).map(cliente -> {
+			cliente.setSaldo(nuevoSaldo);
+			clienteRepository.save(cliente);
+			return true;
+		}).orElse(false);
 	}
 
 }

@@ -68,9 +68,8 @@ public class ClienteController {
 	}
 	
 	@GetMapping("ping")
-	public String ping() {
-	    return "pong";
+	public ResponseEntity<Boolean> ping() {
+	    return ResponseEntity.ok(true);
 	}
-
 
 }

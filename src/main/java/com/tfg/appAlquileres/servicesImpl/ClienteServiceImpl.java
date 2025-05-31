@@ -37,12 +37,14 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public boolean update(Long id, Cliente entity) {
-		return this.clienteRepository.findById(id)
-				.map(existingCliente -> {
-					entity.setId(id);
-					return save(entity);
-				}).orElse(false);
+	    return this.clienteRepository.findById(id)
+	        .map(existingCliente -> {
+	            existingCliente.setSaldo(entity.getSaldo());
+	            clienteRepository.save(existingCliente);
+	            return true;
+	        }).orElse(false);
 	}
+
 
 	@Override
 	public boolean delete(@NonNull Long id) {

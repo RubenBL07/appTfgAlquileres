@@ -36,7 +36,7 @@ public class Cliente {
 	@Column(precision = 10, scale = 2)
 	private BigDecimal saldo = BigDecimal.valueOf(1000.00);
 	
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = false)
 	private List<Reserva> reservas = new ArrayList<>();
 
 	public Cliente() {

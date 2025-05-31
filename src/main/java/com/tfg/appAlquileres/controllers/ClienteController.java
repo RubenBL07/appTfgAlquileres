@@ -66,6 +66,11 @@ public class ClienteController {
 	public ResponseEntity<Boolean> actualizarSaldo(@RequestParam Long id, @RequestParam BigDecimal saldo) {
 	    return ResponseEntity.ok(clienteServiceImpl.updateSaldo(id, saldo));
 	}
+	
+	@GetMapping("ping")
+	public String ping() {
+	    return "pong";
+	}
 
 
 }

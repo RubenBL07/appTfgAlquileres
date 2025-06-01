@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-01T09:55:50+0200",
+    date = "2025-06-01T12:51:28+0200",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.4 (Eclipse Adoptium)"
 )
 @Component
@@ -71,6 +71,7 @@ public class ReservaMapperImpl implements ReservaMapper {
         boolean disponible = false;
         String categoria = null;
         String imagenUrl = null;
+        boolean activa = false;
 
         id = herramienta.getId();
         nombre = herramienta.getNombre();
@@ -79,8 +80,11 @@ public class ReservaMapperImpl implements ReservaMapper {
         disponible = herramienta.isDisponible();
         categoria = herramienta.getCategoria();
         imagenUrl = herramienta.getImagenUrl();
+        if ( herramienta.getActiva() != null ) {
+            activa = herramienta.getActiva();
+        }
 
-        HerramientaDTO herramientaDTO = new HerramientaDTO( id, nombre, descripcion, precioDia, disponible, categoria, imagenUrl );
+        HerramientaDTO herramientaDTO = new HerramientaDTO( id, nombre, descripcion, precioDia, disponible, categoria, imagenUrl, activa );
 
         return herramientaDTO;
     }

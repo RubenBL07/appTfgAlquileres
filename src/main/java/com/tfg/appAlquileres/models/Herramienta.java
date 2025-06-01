@@ -36,5 +36,8 @@ public class Herramienta {
 	
 	@URL(message = "La URL de la imagen no es válida")
 	private String imagenUrl;
+	
+	@Column(nullable = false)
+    private Boolean activa = true;
 
 }

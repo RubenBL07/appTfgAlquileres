@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tfg.appAlquileres.dtos.HerramientaDTO;
+import com.tfg.appAlquileres.mappers.HerramientaMapper;
 import com.tfg.appAlquileres.models.Herramienta;
 import com.tfg.appAlquileres.servicesImpl.HerramientaServiceImpl;
 
@@ -22,6 +24,9 @@ public class HerramientaController {
 	
 	@Autowired
 	private HerramientaServiceImpl herramientaServiceImpl;
+	
+	@Autowired
+	private HerramientaMapper herramientaMapper;
 
 	@GetMapping("findAll")
 	public ResponseEntity<List<Herramienta>> get() {
@@ -47,5 +52,16 @@ public class HerramientaController {
 	public ResponseEntity<Boolean> put(@RequestParam Long id, @RequestBody Herramienta herramienta) {
 		return ResponseEntity.ok(herramientaServiceImpl.update(id, herramienta));
 	}
+	
+	@GetMapping("findAllActivas")
+    public ResponseEntity<List<HerramientaDTO>> getAllActivas() {
+        List<Herramienta> lista = herramientaServiceImpl.getAllHerramientasActivas();
+        return ResponseEntity.ok(herramientaMapper.toDtoList(lista));
+    }
+
+    @PutMapping("darDeBaja")
+    public ResponseEntity<Boolean> darDeBaja(@RequestParam Long id) {
+        return ResponseEntity.ok(herramientaServiceImpl.darDeBaja(id));
+    }
 
 }

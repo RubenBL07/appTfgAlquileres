@@ -9,6 +9,7 @@ import com.tfg.appAlquileres.models.Herramienta;
 import com.tfg.appAlquileres.repositories.HerramientaRepository;
 import com.tfg.appAlquileres.services.HerramientaService;
 
+import jakarta.transaction.Transactional;
 import lombok.NonNull;
 
 @Service
@@ -55,5 +56,19 @@ public class HerramientaServiceImpl implements HerramientaService {
 		}
 		return false;
 	}
+	
+	@Override
+    public List<Herramienta> getAllHerramientasActivas() {
+        return herramientaRepository.findByActivaTrueAndDisponibleTrue();
+    }
+
+    @Transactional
+    public boolean darDeBaja(Long id) {
+        return herramientaRepository.findById(id).map(h -> {
+            h.setActiva(false);
+            herramientaRepository.save(h);
+            return true;
+        }).orElse(false);
+    }
 
 }

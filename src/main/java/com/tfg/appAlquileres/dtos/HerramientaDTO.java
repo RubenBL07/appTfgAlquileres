@@ -9,5 +9,6 @@ public record HerramientaDTO (
 	    BigDecimal precioDia,
 	    boolean disponible,
 	    String categoria,
-	    String imagenUrl){
+	    String imagenUrl,
+	    boolean activa){
 }

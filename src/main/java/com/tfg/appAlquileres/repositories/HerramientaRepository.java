@@ -10,4 +10,6 @@ import com.tfg.appAlquileres.models.Herramienta;
 @Repository
 public interface HerramientaRepository extends JpaRepository<Herramienta, Long> {
     List<Herramienta> findByCategoriaAndDisponible(String categoria, boolean disponible);
+    List<Herramienta> findByActivaTrueAndDisponibleTrue();
+
 }

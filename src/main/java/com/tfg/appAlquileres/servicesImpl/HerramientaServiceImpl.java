@@ -59,13 +59,27 @@ public class HerramientaServiceImpl implements HerramientaService {
 	
 	@Override
     public List<Herramienta> getAllHerramientasActivas() {
-        return herramientaRepository.findByActivaTrueAndDisponibleTrue();
+        return herramientaRepository.findByActivaTrue();
+    }
+	
+	@Override
+    public List<Herramienta> getAllHerramientasInactivas() {
+        return herramientaRepository.findByActivaFalse();
     }
 
     @Transactional
     public boolean darDeBaja(Long id) {
         return herramientaRepository.findById(id).map(h -> {
             h.setActiva(false);
+            herramientaRepository.save(h);
+            return true;
+        }).orElse(false);
+    }
+    
+    @Transactional
+    public boolean reactivar(Long id) {
+        return herramientaRepository.findById(id).map(h -> {
+            h.setActiva(true);
             herramientaRepository.save(h);
             return true;
         }).orElse(false);

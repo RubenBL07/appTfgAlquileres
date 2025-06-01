@@ -58,10 +58,21 @@ public class HerramientaController {
         List<Herramienta> lista = herramientaServiceImpl.getAllHerramientasActivas();
         return ResponseEntity.ok(herramientaMapper.toDtoList(lista));
     }
+	
+	@GetMapping("findAllInactivas")
+    public ResponseEntity<List<HerramientaDTO>> getAllInactivas() {
+        List<Herramienta> lista = herramientaServiceImpl.getAllHerramientasInactivas();
+        return ResponseEntity.ok(herramientaMapper.toDtoList(lista));
+    }
 
     @PutMapping("darDeBaja")
     public ResponseEntity<Boolean> darDeBaja(@RequestParam Long id) {
         return ResponseEntity.ok(herramientaServiceImpl.darDeBaja(id));
+    }
+    
+    @PutMapping("reactivar")
+    public ResponseEntity<Boolean> reactivar(@RequestParam Long id) {
+        return ResponseEntity.ok(herramientaServiceImpl.reactivar(id));
     }
 
 }

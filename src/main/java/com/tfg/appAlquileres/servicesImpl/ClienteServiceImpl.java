@@ -52,7 +52,8 @@ public class ClienteServiceImpl implements ClienteService {
 		}
 		return false;
 	}
-
+	
+	@Override
 	public Optional<Cliente> getByEmail(@NonNull String email) {
 		return this.clienteRepository.findByEmail(email);
 	}

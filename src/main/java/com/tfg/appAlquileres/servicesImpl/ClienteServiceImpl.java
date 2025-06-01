@@ -56,7 +56,8 @@ public class ClienteServiceImpl implements ClienteService {
 	public Optional<Cliente> getByEmail(@NonNull String email) {
 		return this.clienteRepository.findByEmail(email);
 	}
-
+	
+	@Override
 	public boolean updateSaldo(Long id, BigDecimal nuevoSaldo) {
 		return clienteRepository.findById(id).map(cliente -> {
 			cliente.setSaldo(nuevoSaldo);

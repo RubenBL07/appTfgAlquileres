@@ -62,12 +62,12 @@ public class ClienteController {
 		return ResponseEntity.ok(clienteServiceImpl.update(id, cliente));
 	}
 	
-	@PutMapping("updateSaldo")
+	@PutMapping("/updateSaldo")
 	public ResponseEntity<Boolean> actualizarSaldo(@RequestParam Long id, @RequestParam BigDecimal saldo) {
 	    return ResponseEntity.ok(clienteServiceImpl.updateSaldo(id, saldo));
 	}
 	
-	@GetMapping("ping")
+	@GetMapping("/ping")
 	public ResponseEntity<Boolean> ping() {
 	    return ResponseEntity.ok(true);
 	}

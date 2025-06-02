@@ -48,11 +48,10 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Override
 	public boolean update(Long id, Reserva entity) {
-		return this.reservaRepository.findById(id)
-				.map(existingReserva -> {
-					entity.setId(id); 
-					return save(entity);
-				}).orElse(false);
+		return this.reservaRepository.findById(id).map(existingReserva -> {
+			entity.setId(id);
+			return save(entity);
+		}).orElse(false);
 
 	}
 
@@ -73,34 +72,27 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	@Transactional
-	public boolean finalizarReserva(Long id) throws Exception {
+	public boolean finalizarReserva(Long id, @NonNull LocalDateTime fechaFinCliente,
+			@NonNull BigDecimal precioTotalCliente) throws Exception {
 		Reserva reserva = reservaRepository.findById(id)
-	            .orElseThrow(() -> new IllegalArgumentException("Reserva no existe"));
+				.orElseThrow(() -> new IllegalArgumentException("Reserva no existe"));
 
 		if (reserva.getEstado() != EstadoReserva.ACTIVA) {
 			return false;
 		}
 
-		LocalDateTime inicio = reserva.getFechaInicio();
-        LocalDateTime ahora   = LocalDateTime.now();
-        long dias = ChronoUnit.DAYS.between(inicio, ahora);
-        if (dias <= 0) {
-        	dias = 1;
-        }
-        
-		Herramienta herramienta = reserva.getHerramienta();
-		BigDecimal total = herramienta.getPrecioDia().multiply(BigDecimal.valueOf(dias));
-
-		Cliente cliente = reserva.getCliente();		
-		if (cliente.getSaldo().compareTo(total) < 0) {
-			throw new Exception();
+		Cliente cliente = reserva.getCliente();
+		if (cliente.getSaldo().compareTo(precioTotalCliente) < 0) {
+			throw new Exception("Saldo insuficiente para finalizar la reserva");
 		}
 
-		reserva.setFechaFin(ahora);
-		reserva.setPrecioTotal(total);
+		reserva.setFechaFin(fechaFinCliente);
+		reserva.setPrecioTotal(precioTotalCliente);
 		reserva.setEstado(EstadoReserva.FINALIZADA);
 
-		cliente.setSaldo(cliente.getSaldo().subtract(total));
+		cliente.setSaldo(cliente.getSaldo().subtract(precioTotalCliente));
+
+		Herramienta herramienta = reserva.getHerramienta();
 		herramienta.setDisponible(true);
 
 		clienteRepository.save(cliente);

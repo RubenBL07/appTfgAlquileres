@@ -1,8 +1,12 @@
 package com.tfg.appAlquileres.controllers;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +28,8 @@ public class ReservaController {
 
 	@Autowired
 	private ReservaServiceImpl reservaServiceImpl;
+	
+    private final DateTimeFormatter fmt = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 	@Autowired
 	private ReservaMapper reservaMapper;
@@ -62,14 +68,22 @@ public class ReservaController {
 	}
 
 	@PutMapping("finalizar")
-	public ResponseEntity<Boolean> finalizarReserva(@RequestParam Long id) throws Exception {
-		boolean resultado = reservaServiceImpl.finalizarReserva(id);
-        if (resultado) {
-            return ResponseEntity.ok(true);
-        } else {
-            return ResponseEntity.badRequest().body(false);
+	public ResponseEntity<Boolean> finalizarReserva(@RequestParam Long id, @RequestParam String fechaFin,
+			@RequestParam BigDecimal precioTotal) throws Exception {
+		try {
+            LocalDateTime fechaFinParsed = LocalDateTime.parse(fechaFin, fmt);
+            boolean ok = reservaServiceImpl.finalizarReserva(id, fechaFinParsed, precioTotal);
+
+            if (ok) {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.badRequest().body(false);
+            }
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).body(false);
         }
-		
 	}
 
 }
